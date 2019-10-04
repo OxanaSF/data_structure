@@ -51,20 +51,36 @@ def sort_by_cohort(filename):
         stud_inst_ghts_list = line.split("|")
         if stud_inst_ghts_list[4] != "I":
             all_students_and_ghosts.append(stud_inst_ghts_list)
-
-
-    
+  
     winter_16 = []
     spring_16 = []
     summer_16 = []
     fall_15 = []
     ghosts = []
+    
+    cohort_list_ghosts_and_students = []
 
+    for item in all_students_and_ghosts:
+        for cohort in item:
+            if cohort == "Winter 2016":
+                winter_16.append(f"{item[0]} {item[1]}")
+            elif cohort == "Spring 2016":
+                spring_16.append(f"{item[0]} {item[1]}")
+            elif cohort == "Summer 2016":
+                summer_16.append(f"{item[0]} {item[1]}")
+            elif cohort == "Fall 2015":
+                fall_15.append(f"{item[0]} {item[1]}")
+            elif cohort == "G":
+                ghosts.append(f"{item[0]} {item[1]}")
+    
+    cohort_list_ghosts_and_students.append(fall_15)
+    cohort_list_ghosts_and_students.append(winter_16)
+    cohort_list_ghosts_and_students.append(spring_16)
+    cohort_list_ghosts_and_students.append(summer_16)
+    cohort_list_ghosts_and_students.append(ghosts)
     # Code goes here
 
-    print(all_students_and_ghosts)
-sort_by_cohort('cohort_data.txt')
-
+    return cohort_list_ghosts_and_students
 
 
 def hogwarts_by_house(filename):
@@ -81,7 +97,18 @@ def hogwarts_by_house(filename):
 
     """
 
-    all_hogwarts = []
+
+
+    # Code goes here
+    data = open(filename)
+    all_staff_nested = []
+    for line in data:
+        line = line.rstrip()
+        all_staff = line.split("|")
+        all_staff_nested.append(all_staff)
+
+
+
     dumbledores_army = []
     gryffindor = []
     hufflepuff = []
@@ -90,10 +117,42 @@ def hogwarts_by_house(filename):
     ghosts = []
     instructors = []
 
+    last_names_sorted_into_house_instructors_ghosts = []
+
+    for item in all_staff_nested:
+        if "Dumbledore's Army" in item:
+            dumbledores_army.append(f"{item[1]}")
+        elif "Gryffindor" in item:
+            gryffindor.append(f"{item[1]}")
+        elif "Hufflepuff" in item:
+            hufflepuff.append(f"{item[1]}")
+        elif "Ravenclaw" in item:
+            ravenclaw.append(f"{item[1]}")
+        elif "Slytherin" in item:
+            slytherin.append(f"{item[1]}")
+        elif item[len(item)-1] == "G":
+            ghosts.append(f"{item[1]}")
+        elif item[len(item)-1] == "I":
+            instructors.append(f"{item[1]}")
+    
+    dumbledores_army.sort()
+    gryffindor.sort()
+    hufflepuff.sort()
+    ravenclaw.sort()
+    slytherin.sort()
+    ghosts.sort()
+    instructors.sort()
+
+    last_names_sorted_into_house_instructors_ghosts.append(dumbledores_army)
+    last_names_sorted_into_house_instructors_ghosts.append(gryffindor)
+    last_names_sorted_into_house_instructors_ghosts.append(hufflepuff)
+    last_names_sorted_into_house_instructors_ghosts.append(ravenclaw)
+    last_names_sorted_into_house_instructors_ghosts.append(slytherin)
+    last_names_sorted_into_house_instructors_ghosts.append(ghosts)
+    last_names_sorted_into_house_instructors_ghosts.append(instructors)
     # Code goes here
 
-    return all_hogwarts
-
+    return last_names_sorted_into_house_instructors_ghosts
 
 def all_students_tuple_list(filename):
     """TODO: Return a list of tuples of student data.
@@ -207,9 +266,9 @@ def find_house_members_by_student_name(student_list):
 
 
 
-# if __name__ == "__main__":
-#     import doctest
+if __name__ == "__main__":
+    import doctest
 
-#     result = doctest.testmod()
-#     if result.failed == 0:
-#         print("ALL TESTS PASSED")
+    result = doctest.testmod()
+    if result.failed == 0:
+        print("ALL TESTS PASSED")
